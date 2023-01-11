@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import filters, pagination, permissions, status, viewsets
-from rest_framework.response import Response
+from rest_framework import filters, pagination, permissions, viewsets
 
 from api import serializers
 from posts.models import Post, Group, Follow, User
@@ -46,18 +45,4 @@ class FollowViewSet(viewsets.ModelViewSet):
         author = get_object_or_404(
             User, username=self.request.data['following']
         )
-        if not (
-            self.request.user.username == self.request.data['following']
-            or Follow.objects.filter(
-                user=self.request.user, following=author
-            ).exists()
-        ):
-            serializer.save(user=self.request.user, following=author)
-            return Response(
-                data=self.request.data,
-                status=status.HTTP_201_CREATED
-            )
-        return Response(
-            data={'detail': 'Неверные данные'},
-            status=status.HTTP_403_FORBIDDEN
-        )
+        serializer.save(user=self.request.user, following=author)
