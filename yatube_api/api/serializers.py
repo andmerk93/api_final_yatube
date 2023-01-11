@@ -45,16 +45,16 @@ class FollowSerializer(serializers.ModelSerializer):
         model = Follow
         fields = ('user', 'following')
 
-    def validate(self, data):
-        author = get_object_or_404(
-            User, username=data['following']
-        )
+    def validate_following(self, data):
         user = self.context['request'].user
         if (
-            author == user
+            data == user
             or Follow.objects.filter(
-                user=user, following=author
+                user=user, following=data
             ).exists()
         ):
-            raise serializers.ValidationError('Неверные входные данные')
+            raise serializers.ValidationError(
+                'Ошибка: подписка уже создана',
+                'или вы пытаетесь подписаться на себя'
+            )
         return data
