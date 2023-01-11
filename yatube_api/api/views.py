@@ -40,5 +40,10 @@ class FollowViewSet(viewsets.ModelViewSet):
         return Follow.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-#        author = get_object_or_404(User, username=self.request.POST['following']) # this
-        serializer.save(user=self.request.user, following=self.request.user)
+        author = get_object_or_404(
+            User, username=self.request.data['following']
+        )
+        if not Follow.objects.filter(
+            user=self.request.user, following=author
+        ).exists():
+            serializer.save(user=self.request.user, following=author)
