@@ -70,7 +70,13 @@ py -m pip install --upgrade pip setuptools
 pip install -r requirements.txt
 ```
 
-Перейти в папку api_final_yatube/yatube_api  Дальнейшие команды будут выполняться отсюда
+Перейти в папку api_final_yatube/yatube_api  
+```
+cd ./api_final_yatube/yatube_api
+```
+
+Дальнейшие команды будут выполняться отсюда
+
 Создать необходимые таблицы в базе данных (нет необходимости делать makemigrations, описания миграций добавлены в репозиторий):
 
 ```
@@ -80,10 +86,10 @@ py manage.py migrate
 Запустить проект:
 
 ```
-py manage.py runserver
+py manage.py runserver 80
 ```
 
-Тестовый сервер должен запуститься, и быть доступен по http://127.0.0.1:8000/
+Тестовый сервер должен запуститься, и быть доступен по http://localhost/
 Остановка сервера выполняется по Ctrl+C
 
 Для теста панели администратора нужно создать пользователя с правами администратора и следовать инструкциям в консоли.
@@ -92,4 +98,4 @@ py manage.py runserver
 py manage.py createsuperuser
 ```
 
-Панель администратора будет доступна по http://127.0.0.1:8000/admin/
+Панель администратора будет доступна по http://localhost/admin/
